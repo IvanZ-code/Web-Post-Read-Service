@@ -58,3 +58,32 @@ export async function createPost(post) {
     });
     return response.json();
 }
+
+export async function deletePost(id) {
+    const response = await fetch(`${API_URL}/posts/${id}`, {
+        method: "DELETE"
+    });
+
+    if (!response.ok) {
+        console.error("DeletePost error:", await response.text());
+        return false;
+    }
+
+    return true;
+}
+
+export async function getProfile(userId) {
+    const response = await fetch(`${API_URL}/profiles/${userId}`);
+    return response.json();
+}
+
+export async function updateProfile(userId, profile) {
+    const response = await fetch(`${API_URL}/profiles/${userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile)
+    });
+
+    return response.json();
+}
+

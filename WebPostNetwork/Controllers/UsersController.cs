@@ -74,7 +74,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto dto)
     {
         if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
-            return BadRequest("Username уже занят");
+            return BadRequest("username уже занят");
 
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
 
@@ -82,12 +82,25 @@ public class UsersController : ControllerBase
         {
             Username = dto.Username,
             Email = dto.Email,
-            PasswordHash = passwordHash,
+            PasswordHash = passwordHash,    
             CreatedAt = DateTime.UtcNow
         };
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+
+
+        var profile = new Profile
+        {
+            UserId = user.Id,
+            FullName = "",
+            Bio = "",
+            AvatarUrl = ""
+        };
+
+        _context.Profiles.Add(profile);
+        await _context.SaveChangesAsync();
+
 
         var resultDto = new UserDto(user);
 

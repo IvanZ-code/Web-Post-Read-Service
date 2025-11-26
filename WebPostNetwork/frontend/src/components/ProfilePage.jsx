@@ -10,6 +10,7 @@ export default function ProfilePage() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        
         const loadUserAndPosts = async () => {
             try {
                 const allUsers = await getUsers();
@@ -49,7 +50,7 @@ export default function ProfilePage() {
                 />
             )}
 
-            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <div style={{ display: "flex", gap: "10px", marginTop  : "20px" }}>
                 <Link to="/userprofile">
                     <button>My Profile</button>
                 </Link>

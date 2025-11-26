@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import UserProfile from "./components/UserProfile";
 import SearchUsers from "./components/SearchUsers";
 import ProfilePage from "./components/ProfilePage";
+import ChangeProfile from "./components/ChangeProfile";
 
 function App() {
     return (
@@ -13,7 +14,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/userprofile" element={<UserProfile />} />
                 <Route path="/search" element={<SearchUsers />} />
-                <Route path="/profile/:id" element={<ProfilePage /> } />
+                <Route path="/profile/:id" element={<ProfilePage />} />
+                <Route path="/changeuserprofile" element={<ChangeProfile />} />
             </Routes>
         </Router>
     );
