@@ -37,7 +37,7 @@ public class UsersController : ControllerBase
                 query = query.Where(u => u.Username != null && u.Username.ToLower().StartsWith(loweredSearch));
             }
 
-            var users = await query.ToListAsync();
+            var users = await query.OrderBy(u => u.Username).ToListAsync();
 
             var result = users.Select(u => new UserDto(u));
 
