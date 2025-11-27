@@ -1,0 +1,68 @@
+﻿.profile-page {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+    .profile-page h2 {
+        margin-bottom: 15px;
+        color: #333;
+        text-align: left;
+    }
+
+.profile-info {
+    margin-bottom: 10px;
+    color: black;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    padding: 8px 16px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+    .btn-primary:hover {
+        background: #2980b9;
+    }
+
+.posts-section {
+    margin-top: 30px;
+}
+
+.post-card {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+}
+
+    .post-card small {
+        color: #666;
+    }

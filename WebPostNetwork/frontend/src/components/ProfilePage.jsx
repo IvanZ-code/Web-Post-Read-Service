@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getUsers, getPosts } from "../api/apiClient";
+import "../CSS/ProfilePage.css"
 
 export default function ProfilePage() {
     const { id } = useParams(); 
@@ -38,35 +39,33 @@ export default function ProfilePage() {
     if (!user) return <p>Loading...</p>;
 
     return (
-        <div style={{ maxWidth: "600px", margin: "20px auto" }}>
-            <h2>{user.username}'s Profile</h2>
-            {user.fullName && <p>Full Name: {user.fullName}</p>}
-            {user.bio && <p>Bio: {user.bio}</p>}
+        <div className="profile-page">
+            <h2>{user.username}'s profile</h2>
+
+            {user.fullName && <p className="profile-info"><strong>Full Name: </strong>{user.fullName}</p>}
+            {user.bio && <p className="profile-info"><strong>Bio: </strong>{user.bio}</p>}
             {user.avatarUrl && (
                 <img
                     src={user.avatarUrl}
                     alt="Avatar"
-                    style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+                    className="profile-avatar"
                 />
             )}
 
-            <div style={{ display: "flex", gap: "10px", marginTop  : "20px" }}>
+            <div className="btn-group">
                 <Link to="/userprofile">
-                    <button>My Profile</button>
+                    <button className="btn-primary">My Profile</button>
                 </Link>
                 <Link to="/search">
-                    <button>Find people</button>
+                    <button className="btn-primary">Find people</button>
                 </Link>
             </div>
 
-            <div style={{ marginTop: "30px" }}>
+            <div className="posts-section">
                 <h3>Posts</h3>
                 {posts.length === 0 && <p>No posts yet</p>}
                 {posts.map((p) => (
-                    <div
-                        key={p.id}
-                        style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}
-                    >
+                    <div key={p.id} className="post-card">
                         <p>{p.content}</p>
                         <small>
                             Author: {p.username} | Created: {new Date(p.createdAt).toLocaleString()}

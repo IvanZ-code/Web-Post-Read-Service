@@ -1,13 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
 import { updateProfile } from "../api/apiClient";
 import { useState } from "react";
+import "../CSS/ChangeProfile.css"
 
 export default function ChangeProfile() {
     const navigate = useNavigate();
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : null;
 
-    // Ќовое состо€ние дл€ формы, полностью независимое
+   
     const [fullName, setFullName] = useState("");
     const [bio, setBio] = useState("");
     const [avatarUrl, setAvatarUrl] = useState("");
@@ -38,49 +39,45 @@ export default function ChangeProfile() {
     };
 
     return (
-        <div style={{ maxWidth: "600px", margin: "20px auto" }}>
-
-            <div style={{ marginBottom: "10px" }}>
+        <div className="edit-page">
+            <div className="back-button">
                 <Link to="/userprofile">
-                    <button>Back to profile</button>
+                    <button className="btn-primary">Back to profile</button>
                 </Link>
             </div>
-            
+
             <h2>Edit Profile</h2>
 
-            <div style={{ marginBottom: "10px" }}>
+            <div className="form-group">
                 <label>Full Name</label>
                 <input
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Enter full name"
-                    style={{ width: "100%", padding: "8px", marginTop: "4px" }}
                 />
             </div>
 
-            <div style={{ marginBottom: "10px" }}>
+            <div className="form-group">
                 <label>Bio</label>
                 <textarea
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     placeholder="Enter bio"
-                    style={{ width: "100%", padding: "8px", marginTop: "4px" }}
                 />
             </div>
 
-            <div style={{ marginBottom: "10px" }}>
+            <div className="form-group">
                 <label>Avatar URL</label>
                 <input
                     type="text"
                     value={avatarUrl}
                     onChange={(e) => setAvatarUrl(e.target.value)}
                     placeholder="Enter avatar URL"
-                    style={{ width: "100%", padding: "8px", marginTop: "4px" }}
                 />
             </div>
 
-            <button onClick={handleSave} disabled={saving}>
+            <button className="btn-primary" onClick={handleSave} disabled={saving}>
                 {saving ? "Saving..." : "Save"}
             </button>
         </div>

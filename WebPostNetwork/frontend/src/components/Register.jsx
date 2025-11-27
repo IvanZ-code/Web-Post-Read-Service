@@ -1,52 +1,71 @@
 import { useState } from "react";
 import { createUser } from "../api/apiClient";
 import { useNavigate, Link } from "react-router-dom";
+import "../CSS/Register.css"
 
 export default function Register() {
     const navigate = useNavigate();
     const [user, setUser] = useState({ username: "", email: "", password: "" });
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await createUser({
-            Username: user.username,
-            Email: user.email,
-            PasswordHash: user.password
-        });
+        setError("");
 
-        navigate("/login");
+        try {
+            const response = await createUser({
+                Username: user.username,
+                Email: user.email,
+                PasswordHash: user.password
+            });
+
+            navigate("/login");
+        } catch (err) {
+            setError(err.message || "Something went wrong.");
+        }
+        
     };
 
     return (
-        <div>
-        <form onSubmit={handleSubmit}>
-            <h2>Registration</h2>
-            <input
-                placeholder="Username"
-                value={user.username}
-                onChange={e => setUser({ ...user, username: e.target.value })}
-            />
-            <input
-                placeholder="Email"
-                value={user.email}
-                onChange={e => setUser({ ...user, email: e.target.value })}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={user.password}
-                onChange={e => setUser({ ...user, password: e.target.value })}
-            />
-            <button type="submit">Register</button>
-        </form>
+        <div className="register-page">
+            <form onSubmit={handleSubmit} className="register-form">
+                <h2>Registration</h2>
 
-            <div style={{ marginTop: "10px" }}>
+                <input
+                    required placeholder="Username"
+                    minLength={4}
+                    value={user.username}
+                    onChange={e => setUser({ ...user, username: e.target.value.toLowerCase() })}
+                    className="form-input"
+                />
+
+                <input
+                    required placeholder="Email"
+                    value={user.email}
+                    onChange={e => setUser({ ...user, email: e.target.value })}
+                    className="form-input"
+                />
+
+                <input
+                    type="password"
+                    minLength={4}
+                    required placeholder="Password"
+                    value={user.password}
+                    onChange={e => setUser({ ...user, password: e.target.value })}
+                    className="form-input"
+                />
+
+                <button type="submit" className="btn-primary">Register</button>
+            </form>
+
+            <div className="login-link">
                 <Link to="/login">
-                    <button>Enter</button>
+                    <button className="btn-secondary">Enter</button>
                 </Link>
             </div>
 
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }

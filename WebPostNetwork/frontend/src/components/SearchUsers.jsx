@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getUsers } from "../api/apiClient";
 import { Link } from "react-router-dom";
+import "../CSS/SearchUsers.css"
 
 export default function SearchUsers() {
     const [query, setQuery] = useState("");
@@ -21,12 +22,10 @@ export default function SearchUsers() {
     }, [query]);
 
     return (
-
-        <div style={{ maxWidth: "400px", margin: "20px auto" }}>
-
-            <div style={{ margin: "10px" }}>
+        <div className="search-page">
+            <div className="back-button">
                 <Link to="/userprofile">
-                    <button>My Profile</button>
+                    <button className="btn-primary">Back to profile</button>
                 </Link>
             </div>
 
@@ -35,30 +34,16 @@ export default function SearchUsers() {
                 placeholder="Enter username..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                style={{
-                    width: "100%",
-                    padding: "10px",
-                    fontSize: "16px",
-                    marginBottom: "15px",
-                }}
+                className="search-input"
             />
 
             {users.length > 0 && (
-                <ul style={{ padding: 0, listStyle: "none" }}>
+                <ul className="users-list">
                     {users.map((u) => (
-                        <li
-                            key={u.id}
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "10px",
-                                borderBottom: "1px solid #ccc",
-                            }}
-                        >
+                        <li key={u.id} className="user-item">
                             <span>{u.username}</span>
                             <Link to={`/profile/${u.id}`}>
-                                <button style={{ padding: "5px 10px" }}>View Profile</button>
+                                <button className="btn-secondary">View Profile</button>
                             </Link>
                         </li>
                     ))}

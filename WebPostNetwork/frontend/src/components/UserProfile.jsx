@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getPosts, createPost, deletePost, getProfile } from "../api/apiClient";
+import "../CSS/UserProfile.css"
 
 export default function UserProfile() {
     const navigate = useNavigate();
@@ -88,53 +89,62 @@ export default function UserProfile() {
     if (!user) return null;
 
     return (
-        <div style={{ maxWidth: "600px", margin: "20px auto" }}>
+        <div className="page">
             <h2>Hello, {user.username}</h2>
 
-            {/* Отображение профиля */}
-            <div style={{ marginBottom: "20px" }}>
-                {profile.fullName && <p><strong>Full Name:</strong> {profile.fullName}</p>}
-                {profile.bio && <p><strong>Bio:</strong> {profile.bio}</p>}
+            {/* Профиль */}
+            <div className="profile-card">
+                {profile.fullName && (
+                    <p><strong>Full Name:</strong> {profile.fullName}</p>
+                )}
+                {profile.bio && (
+                    <p><strong>Bio:</strong> {profile.bio}</p>
+                )}
                 {profile.avatarUrl && (
-                    <p>
-                        <img src={profile.avatarUrl} alt="avatar" style={{ width: "50px", borderRadius: "50%" }} />
-                    </p>
+                    <img
+                        src={profile.avatarUrl}
+                        alt="avatar"
+                        className="avatar"
+                    />
                 )}
             </div>
 
-            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-                <Link to="/login"><button>Re-Enter</button></Link>
-                <Link to="/search"><button>Find people</button></Link>
-                <Link to="/changeuserprofile"><button>Edit Profile</button></Link>
+            {/* Кнопки */}
+            <div className="btn-group">
+                <Link to="/login"><button className="btn-primary">Re-Enter</button></Link>
+                <Link to="/search"><button className="btn-primary">Find people</button></Link>
+                <Link to="/changeuserprofile"><button className="btn-primary">Edit Profile</button></Link>
             </div>
 
-            <div>
+            {/* Новый пост */}
+            <div className="new-post">
                 <textarea
                     value={newPost.content}
                     onChange={(e) => setNewPost({ content: e.target.value })}
-                    placeholder="Whats up?"
-                    style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+                    placeholder="What's up?"
                 />
-                <button onClick={handleCreatePost}>Create post</button>
+                <button className="btn-primary" onClick={handleCreatePost}>
+                    Create post
+                </button>
             </div>
 
-            <div style={{ marginTop: "30px" }}>
+            {/* Посты */}
+            <div className="posts">
                 <h3>Your posts</h3>
+
                 {posts.length === 0 && <p>No posts yet(</p>}
+
                 {posts.map((p) => (
-                    <div
-                        key={p.id}
-                        style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}
-                    >
+                    <div key={p.id} className="post-card">
                         <p>{p.content}</p>
                         <small>
-                            Author: {p.username} | Created: {new Date(p.createdAt).toLocaleString()}
+                            Author: {p.username} - {new Date(p.createdAt).toLocaleString()}
                         </small>
 
-                        <div style={{ marginTop: "10px" }}>
+                        <div className="post-actions">
                             <button
+                                className="btn-delete"
                                 onClick={() => handleDeletePost(p.id)}
-                                style={{ padding: "4px 8px", fontSize: "12px", cursor: "pointer" }}
                             >
                                 Delete
                             </button>

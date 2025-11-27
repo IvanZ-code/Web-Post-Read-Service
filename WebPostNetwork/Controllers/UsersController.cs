@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using WebPostNetwork.Data;
 using WebPostNetwork.DtoModels.UsersDto;
 using WebPostNetwork.Models;
-using System.Text;
 
 namespace WebPostNetwork.Controllers;
 
@@ -73,14 +74,25 @@ public class UsersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto dto)
     {
-        if (await _context.Users.AnyAsync(u => u.Username == dto.Username))
-            return BadRequest("username уже занят");
+        if (string.IsNullOrWhiteSpace(dto.Username) || dto.Username.Length < 4)
+            return BadRequest("Username must be at least 4 characters and not empty");
+
+        string username = dto.Username.ToLower();
+
+        if (!Regex.IsMatch(username, @"^[a-z0-9_]+$"))
+            return BadRequest("Username can contain only English letters, numbers and underscores");
+
+        if (string.IsNullOrWhiteSpace(dto.PasswordHash) || dto.PasswordHash.Length < 4)
+            return BadRequest("Password must be at least 4 characters and not empty");
+
+        if (await _context.Users.AnyAsync(u => u.Username == username))
+            return BadRequest("username is already taken");
 
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
 
         var user = new User
         {
-            Username = dto.Username,
+            Username = username,
             Email = dto.Email,
             PasswordHash = passwordHash,    
             CreatedAt = DateTime.UtcNow
