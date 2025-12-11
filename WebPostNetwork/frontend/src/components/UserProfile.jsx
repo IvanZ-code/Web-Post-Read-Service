@@ -20,7 +20,7 @@ export default function UserProfile() {
     });
     const [profileLoaded, setProfileLoaded] = useState(false);
 
-    // Загрузка профиля один раз
+   
     useEffect(() => {
         if (!user || profileLoaded) return;
 
@@ -35,7 +35,6 @@ export default function UserProfile() {
                     });
                 }
             } catch (err) {
-                // Игнорируем ошибки fetch (например, локальный HTTPS падает)
                 console.warn("Error loading profile:", err.message);
             } finally {
                 setProfileLoaded(true);
@@ -55,7 +54,7 @@ export default function UserProfile() {
         }
     };
 
-    // Загрузка постов при монтировании
+  
     useEffect(() => {
         //console.log("useEffect triggered at", new Date().toLocaleTimeString());
 
@@ -68,7 +67,7 @@ export default function UserProfile() {
         try {
             await createPost({ ...newPost, userId: user.id });
             setNewPost({ content: "" });
-            await loadPosts(); // обновляем список после создания
+            await loadPosts(); 
         } catch (err) {
             console.error("Error creating post:", err);
         }
@@ -80,7 +79,7 @@ export default function UserProfile() {
 
         try {
             await deletePost(postId);
-            await loadPosts(); // обновляем список после удаления
+            await loadPosts(); 
         } catch (err) {
             console.error("Error deleting post:", err);
         }
@@ -148,6 +147,13 @@ export default function UserProfile() {
                             >
                                 Delete
                             </button>
+
+                            <Link to={`/posts/${p.id}/comments?profileId=${p.userId}`}>
+                                <button className="comments-btn1">
+                                    Comments
+                                </button>
+                            </Link>
+
                         </div>
                     </div>
                 ))}

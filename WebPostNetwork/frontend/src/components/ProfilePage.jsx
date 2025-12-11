@@ -10,6 +10,21 @@ export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
 
+    const storedUser = localStorage.getItem("user");
+    const stUser = storedUser ? JSON.parse(storedUser) : null;
+
+    useEffect(() => {
+        if (stUser && parseInt(id) === stUser.id) {
+            navigate("/userprofile", { replace: true });
+        }
+    }, [id, stUser, navigate]);
+
+  
+    if (stUser && parseInt(id) === stUser.id) {
+        return null; 
+    }
+
+
     useEffect(() => {
         
         const loadUserAndPosts = async () => {
@@ -67,9 +82,18 @@ export default function ProfilePage() {
                 {posts.map((p) => (
                     <div key={p.id} className="post-card">
                         <p>{p.content}</p>
-                        <small>
-                            Author: {p.username} | Created: {new Date(p.createdAt).toLocaleString()}
-                        </small>
+
+                        <div class="profilepage-post">
+                            <small>
+                                Author: {p.username} | Created: {new Date(p.createdAt).toLocaleString()}
+                            </small>
+
+                            <Link to={`/posts/${p.id}/comments?profileId=${p.userId}`}>
+                                <button className="comments-btn">
+                                    Comments
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>

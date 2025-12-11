@@ -94,3 +94,35 @@ export async function updateProfile(userId, profile) {
     return response.json();
 }
 
+export async function getComments(postId) {
+    const response = await fetch(`${API_URL}/comments?postId=${postId}`);
+    return response.json();
+}
+
+export async function createComment(comment) {
+    const response = await fetch(`${API_URL}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(comment)
+    });
+    return response.json();
+}
+
+export async function deleteComment(commentId, currentUserId) {
+    const response = await fetch(`${API_URL}/comments`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            Id: commentId,
+            UserId: currentUserId
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("DeleteComment error:", errorText);
+        throw new Error(errorText || "Failed to delete comment");
+    }
+
+    return true;
+}

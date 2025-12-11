@@ -50,7 +50,19 @@
     .btn-primary:hover {
         background: #2980b9;
     }
-
+.comments-btn {
+    padding: 6px 10px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: 0.2s;
+}
+    .comments-btn:hover {
+        background: #2980b9;
+    }
 .posts-section {
     margin-top: 30px;
 }
@@ -66,3 +78,9 @@
     .post-card small {
         color: #666;
     }
+
+.profilepage-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

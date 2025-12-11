@@ -111,4 +111,23 @@
 
 .post-actions {
     margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+
+.comments-btn1 {
+    padding: 6px 10px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: 0.2s;
+}
+
+    .comments-btn1:hover {
+        background: #2980b9;
+    }
