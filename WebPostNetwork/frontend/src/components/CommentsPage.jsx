@@ -28,7 +28,7 @@ export default function CommentsPage() {
 
     useEffect(() => {
         loadComments();
-    }, [user, postId]);
+    }, [postId]);
 
     const handleSend = async () => {
         if (!newComment.trim()) return;
