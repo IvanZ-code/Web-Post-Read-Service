@@ -20,6 +20,7 @@ export default function CommentsPage() {
         return null;
     }
 
+
     const loadComments = async () => {
         const data = await getComments(postId);
         setComments(data);
@@ -27,7 +28,7 @@ export default function CommentsPage() {
 
     useEffect(() => {
         loadComments();
-    }, [postId]);
+    }, [user, postId]);
 
     const handleSend = async () => {
         if (!newComment.trim()) return;
@@ -66,7 +67,7 @@ export default function CommentsPage() {
             {comments.map((c) => {
                 const canDelete = c.userId === user.id || profileId === user.id;
                 //console.log(profileId, user.id);
-                console.log(canDelete);
+                //console.log(canDelete);
 
                 return (
                     <div key={c.id} className="comment-card">

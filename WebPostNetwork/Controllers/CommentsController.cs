@@ -44,6 +44,9 @@ public class CommentsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<CommentDto>> CreateComment(CreateCommentDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.Content))
+            return BadRequest("Comment content cannot be empty.");
+
         var user = await _context.Users.FindAsync(dto.UserId);
         if (user == null)
             return BadRequest("User not found");

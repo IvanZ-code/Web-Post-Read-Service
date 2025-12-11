@@ -67,6 +67,9 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<PostDto>> CreatePost(CreatePostDto dto)
     {
+        if (string.IsNullOrWhiteSpace(dto.Content))
+            return BadRequest("Post content cannot be empty.");
+
         var userExists = await _context.Users.AnyAsync(u => u.Id == dto.UserId);
         if (!userExists)
             return BadRequest($"User with Id={dto.UserId} does not exist.");
