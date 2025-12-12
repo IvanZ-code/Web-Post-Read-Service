@@ -1,6 +1,7 @@
+п»ї/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { getPosts, createPost, deletePost, getProfile } from "../api/apiClient";
+import { getPosts, createPost, deletePost, getProfile, getPostLikes } from "../api/apiClient";
 import "../CSS/UserProfile.css"
 
 export default function UserProfile() {
@@ -12,6 +13,7 @@ export default function UserProfile() {
 
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState({ content: "" });
+    const [likes, setLikes] = useState({});
 
     const [profile, setProfile] = useState({
         fullName: "",
@@ -44,16 +46,31 @@ export default function UserProfile() {
         loadProfile();
     }, [user, profileLoaded]);
 
-    // Функция загрузки постов
+    // Р¤СѓРЅРєС†РёСЏ Р·Р°РіСЂСѓР·РєРё РїРѕСЃС‚РѕРІ
     const loadPosts = async () => {
         try {
             const data = await getPosts(user.id);
             setPosts(data);
+            await loadLikes(data);
         } catch (err) {
             console.error("Error loading posts:", err);
         }
     };
 
+    const loadLikes = async (posts) => {
+        const likesMap = {};
+        await Promise.all(
+            posts.map(async (p) => {
+                try {
+                    const info = await getPostLikes(p.id);
+                    likesMap[p.id] = info.count ?? 0;
+                } catch (err) {
+                    likesMap[p.id] = 0;
+                }
+            })
+        );
+        setLikes(likesMap);
+    };
   
     useEffect(() => {
         //console.log("useEffect triggered at", new Date().toLocaleTimeString());
@@ -91,7 +108,7 @@ export default function UserProfile() {
         <div className="page">
             <h2>Hello, {user.username}</h2>
 
-            {/* Профиль */}
+            {/* РџСЂРѕС„РёР»СЊ */}
             <div className="profile-card">
                 {profile.fullName && (
                     <p><strong>Full Name:</strong> {profile.fullName}</p>
@@ -108,14 +125,14 @@ export default function UserProfile() {
                 )}
             </div>
 
-            {/* Кнопки */}
+            {/* РљРЅРѕРїРєРё */}
             <div className="btn-group">
                 <Link to="/login"><button className="btn-primary">Re-Enter</button></Link>
                 <Link to="/search"><button className="btn-primary">Find people</button></Link>
                 <Link to="/changeuserprofile"><button className="btn-primary">Edit Profile</button></Link>
             </div>
 
-            {/* Новый пост */}
+            {/* РќРѕРІС‹Р№ РїРѕСЃС‚ */}
             <div className="new-post">
                 <textarea
                     value={newPost.content}
@@ -127,7 +144,7 @@ export default function UserProfile() {
                 </button>
             </div>
 
-            {/* Посты */}
+            {/* РџРѕСЃС‚С‹ */}
             <div className="posts">
                 <h3>Your posts</h3>
 
@@ -139,6 +156,10 @@ export default function UserProfile() {
                         <small>
                             Author: {p.username} - {new Date(p.createdAt).toLocaleString()}
                         </small>
+
+                        <div className="likes-area">
+                            <span className="likes-count">вќ¤пёЏ {likes[p.id] ?? 0}</span>
+                        </div>
 
                         <div className="post-actions">
                             <button

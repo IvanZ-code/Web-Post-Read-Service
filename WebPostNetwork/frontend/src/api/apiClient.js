@@ -126,3 +126,53 @@ export async function deleteComment(commentId, currentUserId) {
 
     return true;
 }
+
+
+export async function getPostLikes(postId, userId = null) {
+    const url = userId
+        ? `${API_URL}/likes?postId=${postId}&userId=${userId}`
+        : `${API_URL}/likes?postId=${postId}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("GetPostLikes error:", errorText);
+        return { count: 0, isLiked: false };
+    }
+
+    return response.json();
+}
+
+
+export async function addLike(postId, userId) {
+    const response = await fetch(`${API_URL}/likes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId, userId })
+    })
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("AddLike error:", errorText);
+        throw new Error(errorText || "Failed to add like");
+    }
+
+    return response.json();
+}
+
+
+export async function removeLike(postId, userId) {
+    const response = await fetch(`${API_URL}/likes`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId, userId })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("RemoveLike error:", errorText);
+        throw new Error(errorText || "Failed to remove like");
+    }
+
+    return true;
+}
