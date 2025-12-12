@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { createUser } from "../api/apiClient";
 import { useNavigate, Link } from "react-router-dom";

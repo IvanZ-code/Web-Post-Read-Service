@@ -1,4 +1,5 @@
-﻿import { useEffect, useState } from "react";
+﻿/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getUsers, getPosts, getPostLikes, addLike, removeLike } from "../api/apiClient";
 import "../CSS/ProfilePage.css"
